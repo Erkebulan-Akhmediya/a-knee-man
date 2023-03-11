@@ -1,0 +1,20 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title= anime.name
+        link(rel="stylesheet", href="/episode.css")
+    body 
+        header 
+            strong 
+                p A Knee Man
+            a(href="/profile") Профиль
+            a(href="/catalogue") Каталог
+            a(href="/catalogue/" + anime._id)= anime.name
+        main  
+            h1= anime.name
+            h3= "Season " + episode.season + " Episode " + episode.number 
+            video(width="95%" controls autoplay)
+                source(src=episode.url type="video/mp4") 

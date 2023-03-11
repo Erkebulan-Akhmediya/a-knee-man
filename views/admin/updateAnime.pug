@@ -1,0 +1,51 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title= anime.name
+        link(rel="stylesheet", href="/updateAnime.css")
+    body 
+        header 
+            a(href="/admin") Admin 
+            a(href="/admin/users") Users 
+        main 
+            div(id="info")
+                h1 General Info 
+                form#update(action="/admin/update/" + animeID, method="post")
+
+                    label(for="image") Image  
+                    input#image(type="text", name="image")
+
+                    label(for="name") Name 
+                    input#name(type="text", name="name", value= anime.name) 
+
+                    label(for="description") Description  
+                    textarea#description(name="description", cols="30", rows="10")= anime.description 
+
+                    input(type="submit", value="Update the Anime")
+
+                form#delete(action="/admin/delete/" + animeID, method="post")
+                    input(type="submit", value="Delete the Anime") 
+
+            div(id="episodes-div")
+                h1 Episodes 
+                ul 
+                    each val in anime.episodes 
+                        li
+                            p= "Episode " + val.number + " Season " + val.season 
+                            form(action="/admin/update/" + anime._id + "/" + val._id + "/delete", method="post") 
+                                input(type="submit", value="Delete Episode")
+
+                form#episodes(action="/admin/update/" + animeID + "/episodes/add", method="post") 
+                    label(for="season-number") Season
+                    input#season-number(type="number", name="seasonNumber", value=1)
+
+                    label(for="episode-number") Episode  
+                    input#episode-number(type="number", name="episodeNumber", value=1)
+
+                    label(for="episode-url") URL
+                    input#episode-url(type="text", name="episodeUrl")
+
+                    input(type="submit", value="Add Episode")

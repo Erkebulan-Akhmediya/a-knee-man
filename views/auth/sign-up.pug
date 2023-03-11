@@ -1,0 +1,27 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Регистрация
+        link(rel="stylesheet", href="/signUp.css")
+    body 
+        div
+            h1 Регистрация
+            form(action="/sign-up", method="post") 
+                label(for="first-name") Имя
+                input#first-name(type="text", name="firstName")
+
+                label(for="last-name") Фамилия
+                input#last-name(type="text", name="lastName")
+
+                label(for="email") Email
+                input#email(type="email", name="email")
+
+                label(for="password") Пароль
+                input#password(type="password", name="password")
+
+                input(type="submit", value="Зарегистрироваться")
+            p Уже есть аккаунт? 
+                a(href="/sign-in") Войти

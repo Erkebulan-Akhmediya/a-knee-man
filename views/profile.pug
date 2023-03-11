@@ -1,0 +1,33 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Profile
+        link(rel="stylesheet", href="/profile.css")
+    body 
+        header 
+            strong 
+                p A Knee Man 
+            a(href="/profile") Профиль
+            a(href="/catalogue") Каталог  
+            a(href="/logout") Выйти
+        main 
+            h1= user.firstName + " " + user.lastName 
+            div
+                h3 Планирую смотреть 
+                ul
+                    each val in planning 
+                        li
+                            a(href="/catalogue/" + val._id)= val.name
+                            form(action="/catalogue/" + val._id + "/planning/remove", method="post") 
+                                input(type="submit", value="Удалить")
+            div
+                h3 Понравившиеся 
+                ul 
+                    each val in liked 
+                        li 
+                            a(href="/catalogue/" + val._id)= val.name  
+                            form(action="/catalogue/" + val._id + "/like/remove", method="post")
+                                input(type="submit", value="Удалить") 

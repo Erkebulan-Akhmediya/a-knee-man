@@ -1,0 +1,33 @@
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a, h1, p {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+header {
+    background-color: #cad0e1;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+header > a {
+    margin: 20px;
+    font-size: 20px;
+}
+
+body {
+    margin: 0px;
+}
+
+main {
+    padding: 0% 10% 0% 10%;
+}
+
+p {
+    margin: 0px;
+}

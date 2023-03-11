@@ -1,0 +1,38 @@
+form {
+    width: 30%;
+    height: 40vh;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+}
+
+header {
+    background-color: #cad0e1;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+header > a {
+    margin: 20px;
+    font-size: 20px;
+}
+
+body {
+    margin: 0px;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+a, h1, label {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+main {
+    padding: 0% 10% 0% 10%;
+}

@@ -1,0 +1,23 @@
+doctype html
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(http-equiv="X-UA-Compatible", content="IE=edge")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+        title Catalogue
+        link(rel="stylesheet", href="/catalogue.css")
+    body 
+        header 
+            strong 
+                p A Knee Man
+            a(href="/profile") Профиль 
+            a(href="/catalogue") Каталог 
+        main 
+            h1 Каталог аниме 
+            ol 
+                each val in anime
+                    li
+                        a(href="/catalogue/" + val._id)  
+                            div
+                                img(src=val.imageUrl) 
+                                p= val.name 
