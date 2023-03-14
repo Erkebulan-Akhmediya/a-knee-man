@@ -22,15 +22,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
@@ -39,111 +30,90 @@ const express_1 = __importDefault(require("express"));
 const Anime_1 = __importStar(require("../models/Anime"));
 const AdminRouter = express_1.default.Router();
 class adminController {
+    static controller;
     constructor(controller) {
         adminController.controller = controller;
     }
-    admin(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const anime = yield Anime_1.default.find({}, { name: 1, price: 1 });
-                res.render('admin/admin', { anime: anime });
-            }
-            catch (_a) {
-                console.log('cannot retrieve records from db');
-            }
-        });
+    async admin(req, res) {
+        try {
+            const anime = await Anime_1.default.find({}, { name: 1, price: 1 });
+            res.render('admin/admin', { anime: anime });
+        }
+        catch {
+            console.log('cannot retrieve records from db');
+        }
     }
     getAddAnime(req, res) {
         res.render('admin/addAnime');
     }
-    postAddAnime(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                yield Anime_1.default.create({
-                    name: req.body.name,
-                    description: req.body.description,
-                });
-                res.redirect('/admin');
-            }
-            catch (_a) {
-                console.log('cannot add anime');
-            }
-        });
-    }
-    getUpdateAnime(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const animeID = req.params.id;
-            const anime = yield Anime_1.default.findOne({ _id: animeID });
-            res.render('admin/updateAnime', {
-                anime: anime,
-                animeID: req.params.id,
+    async postAddAnime(req, res) {
+        try {
+            await Anime_1.default.create({
+                name: req.body.name,
+                description: req.body.description,
             });
-        });
-    }
-    postUpdateAnime(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const animeID = req.params.id;
-                const anime = yield Anime_1.default.findOne({ _id: animeID });
-                yield Anime_1.default.findOneAndUpdate({ _id: animeID }, {
-                    name: req.body.name,
-                    description: req.body.description,
-                    imageUrl: req.body.image,
-                });
-                res.redirect('/admin');
-            }
-            catch (_a) {
-                console.log('cannot update anime');
-            }
-        });
-    }
-    addEpisode(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield Anime_1.default.findOneAndUpdate({ _id: req.params.id }, { $push: {
-                    episodes: new Anime_1.episodeModel({
-                        number: req.body.episodeNumber,
-                        season: req.body.seasonNumber,
-                        url: req.body.episodeUrl,
-                    }),
-                } });
-            res.redirect('/admin/update/' + req.params.id);
-        });
-    }
-    deleteEpisode(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            yield Anime_1.default.findOneAndUpdate({ _id: req.params.id }, { $pull: {
-                    episodes: { _id: req.params.episodeID },
-                } });
-            res.redirect('/admin/update/' + req.params.id);
-        });
-    }
-    deleteAnime(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            const animeID = req.params.id;
-            const anime = yield Anime_1.default.findOne({ _id: animeID });
-            yield Anime_1.default.findByIdAndRemove({ _id: anime === null || anime === void 0 ? void 0 : anime._id });
             res.redirect('/admin');
+        }
+        catch {
+            console.log('cannot add anime');
+        }
+    }
+    async getUpdateAnime(req, res) {
+        const animeID = req.params.id;
+        const anime = await Anime_1.default.findOne({ _id: animeID });
+        res.render('admin/updateAnime', {
+            anime: anime,
+            animeID: req.params.id,
         });
     }
-    users(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            adminController.controller.users(req, res);
-        });
+    async postUpdateAnime(req, res) {
+        try {
+            const animeID = req.params.id;
+            const anime = await Anime_1.default.findOne({ _id: animeID });
+            await Anime_1.default.findOneAndUpdate({ _id: animeID }, {
+                name: req.body.name,
+                description: req.body.description,
+                imageUrl: req.body.image,
+            });
+            res.redirect('/admin');
+        }
+        catch {
+            console.log('cannot update anime');
+        }
     }
-    deleteUser(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            adminController.controller.deleteUser(req, res);
-        });
+    async addEpisode(req, res) {
+        await Anime_1.default.findOneAndUpdate({ _id: req.params.id }, { $push: {
+                episodes: new Anime_1.episodeModel({
+                    number: req.body.episodeNumber,
+                    season: req.body.seasonNumber,
+                    url: req.body.episodeUrl,
+                }),
+            } });
+        res.redirect('/admin/update/' + req.params.id);
     }
-    getUpdateUser(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            adminController.controller.getUpdateUser(req, res);
-        });
+    async deleteEpisode(req, res) {
+        await Anime_1.default.findOneAndUpdate({ _id: req.params.id }, { $pull: {
+                episodes: { _id: req.params.episodeID },
+            } });
+        res.redirect('/admin/update/' + req.params.id);
     }
-    postUpdateUser(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            adminController.controller.postUpdateUser(req, res);
-        });
+    async deleteAnime(req, res) {
+        const animeID = req.params.id;
+        const anime = await Anime_1.default.findOne({ _id: animeID });
+        await Anime_1.default.findByIdAndRemove({ _id: anime?._id });
+        res.redirect('/admin');
+    }
+    async users(req, res) {
+        adminController.controller.users(req, res);
+    }
+    async deleteUser(req, res) {
+        adminController.controller.deleteUser(req, res);
+    }
+    async getUpdateUser(req, res) {
+        adminController.controller.getUpdateUser(req, res);
+    }
+    async postUpdateUser(req, res) {
+        adminController.controller.postUpdateUser(req, res);
     }
 }
 exports.default = adminController;

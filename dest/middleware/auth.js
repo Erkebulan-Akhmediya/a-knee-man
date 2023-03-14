@@ -23,7 +23,7 @@ function auth(req, res, next) {
             req.body.user = user;
         });
     }
-    catch (_a) {
+    catch {
         res.redirect('/sign-in');
         return;
     }

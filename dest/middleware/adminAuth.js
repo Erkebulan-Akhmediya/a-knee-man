@@ -14,7 +14,7 @@ function adminAuth(req, res, next) {
     try {
         console.log(jsonwebtoken_1.default.verify(adminToken, secret));
     }
-    catch (_a) {
+    catch {
         res.redirect('/sign-in');
         return;
     }
